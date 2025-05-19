@@ -27,7 +27,7 @@ const Hero = () => {
               border: "1px solid #333",
               borderRadius: "8px",
             },
-            icon: "📋",
+            icon: "☺️",
           });
         })
         .catch(() => {
