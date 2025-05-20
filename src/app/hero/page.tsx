@@ -1,12 +1,48 @@
 "use client";
 import Image from "next/image";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Logo from "../../../public/images/svgs/logo.svg";
 import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
+import gsap from "gsap";
 
 const Hero = () => {
   const emailRef = useRef<HTMLSpanElement>(null);
+  const rect = useRef<SVGRectElement>(null);
+  const svgContainer = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    if (!rect.current || !svgContainer.current) return;
+  
+    const isMobile = window.innerWidth <= 768;
+    const initialWidth = isMobile ? 20 : 40;
+    const targetWidth = isMobile ? 80 : 120;
+  
+    rect.current.setAttribute("width", `${initialWidth}`);
+    svgContainer.current.style.width = `${initialWidth}px`;
+  
+    const rectAnimation = gsap.to(rect.current, {
+      attr: { width: targetWidth },
+      duration: 1.2,
+      ease: "expo.out",
+      delay: 3.2,
+      repeat: -1,
+      yoyo: true,
+      yoyoEase: "power2.in",
+      repeatDelay: 3.5,
+      onUpdate: function () {
+        const currentWidth = parseFloat(
+          rect.current?.getAttribute("width") || "40"
+        );
+        svgContainer.current!.style.width = `${currentWidth}px`;
+      },
+    });
+  
+    return () => {
+      rectAnimation.kill();
+    };
+  }, []);
+  
 
   const copyEmailToClipboard = () => {
     if (!emailRef.current) return;
@@ -14,7 +50,6 @@ const Hero = () => {
     const email = emailRef.current.textContent?.trim();
     if (!email) return;
 
-    
     if (navigator.clipboard) {
       navigator.clipboard
         .writeText(email)
@@ -27,7 +62,7 @@ const Hero = () => {
               border: "1px solid #333",
               borderRadius: "8px",
             },
-            icon: "☺️",
+            icon: "🐼",
           });
         })
         .catch(() => {
@@ -38,7 +73,6 @@ const Hero = () => {
     }
   };
 
-  
   const fallbackCopyToClipboard = (text: string) => {
     const textArea = document.createElement("textarea");
     textArea.value = text;
@@ -61,9 +95,43 @@ const Hero = () => {
     }
   };
 
+
+  const SimpleRectangle = ({
+    fill = "currentColor",
+    stroke = "none",
+    strokeWidth = 0,
+    className = "",
+  }: {
+    fill?: string;
+    stroke?: string;
+    strokeWidth?: number;
+    className?: string;
+  }) => {
+    return (
+      <span className="inline-flex items-center overflow-hidden">
+        <svg
+          ref={svgContainer}
+          viewBox="0 0 20 16"
+          className={`h-2 md:h-3 lg:h-3 xl:h-4 ${className}`}
+          preserveAspectRatio="none"
+          style={{ width: "40px" }} 
+        >
+          <rect
+            ref={rect}
+            width="40"
+            height="16"
+            fill={fill}
+            stroke={stroke}
+            strokeWidth={strokeWidth}
+          />
+        </svg>
+      </span>
+    );
+  };
+  
+
   return (
     <section className="h-[100vh] w-full flex justify-center items-center px-6 sm:px-14 md:px-24 overflow-hidden bg-black text-white relative">
-    
       <Toaster
         position="top-center"
         toastOptions={{
@@ -77,8 +145,12 @@ const Hero = () => {
           <div className="max-w-sm md:max-w-md lg:max-w-xl xl:max-w-2xl">
             <div className="w-full flex flex-col gap-10">
               <Image src={Logo} alt="" />
-              <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-left font-extrabold tracking-[-3.52px] leading-[100%] font-lausanne">
-                pronounced as p<span>a</span>an-daah.
+              <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-left font-extrabold tracking-[-3.52px] leading-[100%] font-lausanne ">
+                pr<span className="">o</span>nounced as p<span>a</span>an
+                <span className="inline-flex items-baseline relative bottom-2 lg:bottom-3 xl:bottom-4 mx-1">
+                  <SimpleRectangle />
+                </span>
+                daah.
               </h1>
               <div className="flex flex-col gap-6 font-lausannelight">
                 <div>
