@@ -21,25 +21,37 @@ const Hero = () => {
     rect.current.setAttribute("width", `${initialWidth}`);
     svgContainer.current.style.width = `${initialWidth}px`;
   
-    const rectAnimation = gsap.to(rect.current, {
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 3.5 });
+
+    tl.to(rect.current, {
       attr: { width: targetWidth },
       duration: 1.2,
       ease: "expo.out",
       delay: 3.2,
-      repeat: -1,
-      yoyo: true,
-      yoyoEase: "power2.in",
-      repeatDelay: 3.5,
-      onUpdate: function () {
+      onUpdate: () => {
         const currentWidth = parseFloat(
-          rect.current?.getAttribute("width") || "40"
+          rect.current?.getAttribute("width") || initialWidth.toString()
         );
         svgContainer.current!.style.width = `${currentWidth}px`;
       },
     });
+    
+    // Shrink animation (back to initial width)
+    tl.to(rect.current, {
+      attr: { width: initialWidth },
+      duration: 0.8,
+      ease: "power2.in",
+      onUpdate: () => {
+        const currentWidth = parseFloat(
+          rect.current?.getAttribute("width") || initialWidth.toString()
+        );
+        svgContainer.current!.style.width = `${currentWidth}px`;
+      },
+    });
+    
   
     return () => {
-      rectAnimation.kill();
+      tl.kill();
     };
   }, []);
   
@@ -131,7 +143,7 @@ const Hero = () => {
   
 
   return (
-    <section className="h-[100vh] w-full flex justify-center items-center px-6 sm:px-14 md:px-24 overflow-hidden bg-black text-white relative">
+    <section className="h-dvh min-h-screen w-full flex justify-center items-center px-6 sm:px-14 md:px-24 overflow-hidden bg-black text-white relative">
       <Toaster
         position="top-center"
         toastOptions={{
