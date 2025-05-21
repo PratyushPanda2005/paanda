@@ -21,13 +21,13 @@ const Hero = () => {
     rect.current.setAttribute("width", `${initialWidth}`);
     svgContainer.current.style.width = `${initialWidth}px`;
   
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 3.5 });
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 2.2 });
 
     tl.to(rect.current, {
       attr: { width: targetWidth },
       duration: 1.2,
       ease: "expo.out",
-      delay: 3.2,
+      delay: 2.2,
       onUpdate: () => {
         const currentWidth = parseFloat(
           rect.current?.getAttribute("width") || initialWidth.toString()
@@ -39,7 +39,7 @@ const Hero = () => {
     // Shrink animation (back to initial width)
     tl.to(rect.current, {
       attr: { width: initialWidth },
-      duration: 0.8,
+      duration: 0.6,
       ease: "power2.in",
       onUpdate: () => {
         const currentWidth = parseFloat(
