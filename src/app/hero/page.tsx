@@ -158,11 +158,7 @@ const Hero = () => {
             <div className="w-full flex flex-col gap-10">
               <Image src={Logo} alt="" />
               <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-left font-extrabold tracking-[-3.52px] leading-[100%] font-lausanne ">
-                pr<span className="">o</span>nounced as p<span>a</span>an
-                <span className="inline-flex items-baseline relative bottom-2 lg:bottom-3 xl:bottom-4 mx-1">
-                  <SimpleRectangle />
-                </span>
-                daah.
+                pr<span className="">o</span>nounced as p<span>a</span>an-daah.
               </h1>
               <div className="flex flex-col gap-6 font-lausannelight">
                 <div>
