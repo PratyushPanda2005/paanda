@@ -108,38 +108,6 @@ const Hero = () => {
   };
 
 
-  const SimpleRectangle = ({
-    fill = "currentColor",
-    stroke = "none",
-    strokeWidth = 0,
-    className = "",
-  }: {
-    fill?: string;
-    stroke?: string;
-    strokeWidth?: number;
-    className?: string;
-  }) => {
-    return (
-      <span className="inline-flex items-center overflow-hidden">
-        <svg
-          ref={svgContainer}
-          viewBox="0 0 20 16"
-          className={`h-2 md:h-3 lg:h-3 xl:h-4 ${className}`}
-          preserveAspectRatio="none"
-          style={{ width: "40px" }} 
-        >
-          <rect
-            ref={rect}
-            width="40"
-            height="16"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth={strokeWidth}
-          />
-        </svg>
-      </span>
-    );
-  };
   
 
   return (
